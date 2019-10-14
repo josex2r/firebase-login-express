@@ -1,0 +1,13 @@
+extends layout
+
+block content
+
+  form.form-signin.text-center.col-sm-6.offset-sm-3(method='post', action='login')
+    h1.h3.mb-3.font-weight-normal Film API
+    a#firebaseLogin.btn.btn-lg.btn-primary.btn-block.btn-danger(href="#") Login with Firebase
+
+    if error
+      div.alert.alert-danger(role='alert') User not valid :(
+
+    if logout
+      div.alert.alert-success(role='alert') Logout completed!

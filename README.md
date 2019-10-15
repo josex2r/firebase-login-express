@@ -39,4 +39,4 @@ La aplicación contiene las siguientes rutas:
   - [`/login`](routes/login.js)
   - [`/logout`](routes/login.js)
 - **Rutas privadas (con autenticación)**
-  - [`/films`](routes/films.js)
+  - [`/admin`](routes/admin.js)

@@ -4,7 +4,7 @@ include ./mixins/film
 
 block content
   if filmAdded
-    div.alert.alert-success(role='alert') La película ha sido creada!
+    div.alert.alert-success(role='alert') The file has been uploaded!
 
   form.form-signin.text-center.col-sm-6.offset-sm-3(action='/admin/upload', method='post', enctype='multipart/form-data')
     input.form-control(type='file', name='fileInput')

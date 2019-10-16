@@ -30,7 +30,6 @@ async function getFiles(email) {
     return snapshot.data().files || [];
 }
 
-// GET: List films
 router.get('/', async (req, res, next) => {
     const { email } = req.decodedClaims; // middleware "auth.js"
     const files = await getFiles(email);
@@ -39,24 +38,21 @@ router.get('/', async (req, res, next) => {
     res.render('admin', {
         title: 'Admin',
         files,
-        filmAdded: !!req.query.filmAdded
+        filmAdded: !!req.query.fileAdded
     });
 });
 
 router.post('/upload', (req, res) => {
     const { email } = req.decodedClaims; // middleware "auth.js"
 
-    console.log('POST!!', req.body, req.busboy.on)
-
     req.busboy.on('file', (attrName, file, filename, encoding, mimetype) => {
-        console.log(attrName);
         if (attrName !== 'fileInput') {
             res.redirect('/admin');
             return;
         }
 
         uploadToFirebase(email, filename, file).then(() => {
-            res.redirect('/admin');
+            res.redirect('/admin?fileAdded=true');
         });
     });
 });

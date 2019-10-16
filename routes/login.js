@@ -15,7 +15,6 @@ router.post('/login', (req, res) => {
       // secure: true
     };
 
-    console.log(sessionCookie)
     res.cookie('__session', sessionCookie, options);
 
     return admin.auth().verifyIdToken(idToken);

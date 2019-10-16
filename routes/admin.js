@@ -4,7 +4,7 @@ const admin = require('../lib/firebase-admin');
 
 const getBucketFilename = (email, filename) => `${email}/${filename}`;
 
-async function uploadToFirebase(email, filename, file) {
+async function uploadToFirebase(email, filename, file, mimetype) {
     const storage = admin.storage();
     const bucket = storage.bucket('gs://curso-nodejs-kairos.appspot.com');
     const bucketFilename = getBucketFilename(email, filename);
@@ -12,7 +12,11 @@ async function uploadToFirebase(email, filename, file) {
 
     await new Promise((resolve, reject) => {
         file
-            .pipe(fileReference.createWriteStream())
+            .pipe(fileReference.createWriteStream({
+                metadata:{
+                    contentType: mimetype
+                }
+            }))
             .on('finish', resolve)
             .on('error', reject);
     });
@@ -20,7 +24,7 @@ async function uploadToFirebase(email, filename, file) {
     const currentFiles = await getFiles(email);
 
     return admin.firestore().collection('uploads').doc(email).set({
-        files: [...currentFiles, filename]
+        files: Array.from(new Set([...currentFiles, filename]))
     }, { merge: true });
 }
 
@@ -33,7 +37,6 @@ async function getFiles(email) {
 router.get('/', async (req, res, next) => {
     const { email } = req.decodedClaims; // middleware "auth.js"
     const files = await getFiles(email);
-    console.log(files)
 
     res.render('admin', {
         title: 'Admin',
@@ -51,7 +54,7 @@ router.post('/upload', (req, res) => {
             return;
         }
 
-        uploadToFirebase(email, filename, file).then(() => {
+        uploadToFirebase(email, filename, file, mimetype).then(() => {
             res.redirect('/admin?fileAdded=true');
         });
     });

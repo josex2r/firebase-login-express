@@ -1,8 +1,8 @@
-# film-api
+# firebase-login-express
 
 Aplicación hecha con [expressjs](http://expressjs.com/) para el [Curso de NodeJS](https://github.com/Fictizia/Curso-Node.js-para-desarrolladores-Front-end_ed5) de [@Fictizia](https://github.com/Fictizia);
 
-El objetivo es crear una aplicación web junto a una pequeña API rest y una base de datos almacenada en un fichero JSON para administrar películas.
+El objetivo es crear una aplicación web que permita autenticarse, subir ficheros y redimensionarlos utilizando los servicios de Firebase.
 
 ## Instalación
 

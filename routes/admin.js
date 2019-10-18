@@ -10,4 +10,14 @@ router.get('/', (req, res, next) => {
     });
 });
 
+router.post('/upload', (req, res) => {
+    req.busboy.on('file', (attrName, file, filename, encoding, mimetype) => {
+        uploadToFirebase(file, filename, mimetype).then(() => {
+            res.redirect('/admin');
+        }).catch(() => {
+            res.sendStatus(500);
+        });
+    });
+});
+
 module.exports = router;

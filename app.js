@@ -4,6 +4,7 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const connectBusboy = require('connect-busboy');
 
 // Load middlewares
 const firebaseLocals = require('./middlewares/firebase-locals');
@@ -29,6 +30,9 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(firebaseLocals);
+app.use(connectBusboy({
+  immediate: true
+}));
 
 app.use('/', index);
 app.use('/', login);

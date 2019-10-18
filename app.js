@@ -13,6 +13,7 @@ const auth = require('./middlewares/auth');
 const index = require('./routes');
 const films = require('./routes/films');
 const login = require('./routes/login');
+const admin = require('./routes/admin');
 
 const app = express();
 
@@ -31,7 +32,7 @@ app.use(firebaseLocals);
 
 app.use('/', index);
 app.use('/', login);
-app.use('/films', [auth], films);
+app.use('/admin', admin);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

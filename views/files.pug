@@ -1,10 +1,10 @@
 extends ./layout
 
 block content
-  if filmAdded
+  if fileAdded
     div.alert.alert-success(role='alert') The file has been uploaded!
 
-  form.form-signin.text-center.col-sm-6.offset-sm-3(action='/admin/upload', method='post', enctype='multipart/form-data')
+  form.form-signin.text-center.col-sm-6.offset-sm-3(action='/files/upload', method='post', enctype='multipart/form-data')
     input.form-control(type='file', name='fileInput')
     button.btn.btn-lg.btn-primary.btn-block(type='submit') Send
 

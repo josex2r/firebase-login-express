@@ -9,12 +9,6 @@ const connectBusboy = require('connect-busboy');
 // Load middlewares
 const firebaseLocals = require('./middlewares/firebase-locals');
 const auth = require('./middlewares/auth');
-const busboy = connectBusboy({
-  immediate: true,
-  limits: {
-    fileSize: 10 * 1024 * 1024
-  }
-});
 
 // Load routes
 const index = require('./routes');

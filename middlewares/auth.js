@@ -1,12 +1,12 @@
 const admin = require('../lib/firebase-admin');
 
-module.exports = (req, res, next) => {
-  const sessionCookie = req.cookies.__session || '';
+module.exports = async (req, res, next) => {
+  try {
+    const cookie = req.cookies.__session || '';
 
-  admin.auth().verifySessionCookie(sessionCookie, true).then((decodedClaims) => {
-    req.decodedClaims = decodedClaims;
+    req.decodedClaims = await admin.auth().verifySessionCookie(cookie, true);
     next();
-  }).catch((error) => {
+  } catch(e) {
     res.redirect('/');
-  });
+  }
 };

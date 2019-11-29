@@ -3,33 +3,32 @@ const router = express.Router();
 const admin = require('../lib/firebase-admin');
 
 // Add auth middleware
-router.post('/login', (req, res) => {
-  const { idToken } = req.body;
-  const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
-  console.log(idToken, req.body)
+router.post('/login', async (req, res) => {
+  try {
+    const { idToken } = req.body;
 
-  admin.auth().createSessionCookie(idToken, { expiresIn }).then((sessionCookie) => {
+    const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
+    const auth = admin.auth();
+    const cookie = await auth.createSessionCookie(idToken, { expiresIn });
     const options = {
       maxAge: expiresIn,
       httpOnly: true,
       // secure: true
     };
 
-    res.cookie('__session', sessionCookie, options);
+    await auth.verifyIdToken(idToken);
 
-    return admin.auth().verifyIdToken(idToken);
-  }).then(() => {
-      res.sendStatus(204);
-  }).catch((error) => {
-    console.log(error)
+    res.cookie('__session', cookie, options);
+    res.sendStatus(204);
+  } catch(e) {
     res.status(401).send('UNAUTHORIZED REQUEST!');
-  });
+  }
 });
 
 // Logout endpoint
 router.get('/logout', (req, res) => {
-    res.clearCookie('__session');
-    res.redirect('/?logout=true');
+  res.clearCookie('__session');
+  res.redirect('/?logout=true');
 });
 
 module.exports = router;

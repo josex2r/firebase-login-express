@@ -22,7 +22,7 @@ function firebaseLogin() {
     });
   }).then((response) => {
     if (response.ok) {
-      window.location.href = '/admin';
+      window.location.href = '/files';
     }
   });
 }

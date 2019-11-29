@@ -1,0 +1,18 @@
+extends ./layout
+
+block content
+  if fileAdded
+    div.alert.alert-success(role='alert') The file has been uploaded!
+
+  form.form-signin.text-center.col-sm-6.offset-sm-3(action='/files/upload', method='post', enctype='multipart/form-data')
+    input.form-control(type='file', name='fileInput')
+    button.btn.btn-lg.btn-primary.btn-block(type='submit') Send
+
+  h1 Your uploads:
+  .card-group
+    each file in files
+      .card(style="margin-right: 15px;min-width: 250px;max-width: 250px")
+        img.card-img-top(src="/files/thumb@128_" + file)
+        .card-body
+          h5 #{file}
+          a.card-link(href="/files/" + file, target="_blank") Download

@@ -18,8 +18,8 @@ const busboy = connectBusboy({
 
 // Load routes
 const index = require('./routes');
-const admin = require('./routes/admin');
 const login = require('./routes/login');
+const files = require('./routes/files');
 
 const app = express();
 
@@ -35,10 +35,11 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(firebaseLocals);
+app.use(connectBusboy());
 
 app.use('/', index);
 app.use('/', login);
-app.use('/admin', [auth, busboy], admin);
+app.use('/files', auth, files);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

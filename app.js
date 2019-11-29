@@ -4,9 +4,11 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const connectBusboy = require('connect-busboy');
 
 // Load middlewares
 const firebaseLocals = require('./middlewares/firebase-locals');
+const auth = require('./middlewares/auth');
 
 // Load routes
 const index = require('./routes');
@@ -27,10 +29,11 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(firebaseLocals);
+app.use(connectBusboy());
 
 app.use('/', index);
 app.use('/', login);
-app.use('/files', files);
+app.use('/files', auth, files);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

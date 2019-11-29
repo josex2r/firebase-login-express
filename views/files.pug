@@ -10,6 +10,8 @@ block content
 
   h1 Your uploads:
   .card-group
-    ul
-      each file in files
-        li #{file}
+    each file in files
+      .card(style="margin-right: 15px;min-width: 250px")
+        .card-body
+          h5 #{file}
+          a.card-link(href="/files/" + file, target="_blank") Download
